@@ -1,3 +1,4 @@
+import 'dart:math';
 import '../components/bottom_button.dart';
 import '../components/contador.dart';
 import '../components/custom_card.dart';
@@ -7,7 +8,9 @@ import '../components/modal_result.dart';
 import '../components/slider_altura.dart';
 
 import 'package:flutter/material.dart';
+import 'package:calculadora_imc/components/slider_altura.dart';
 
+enum Genero { masculino, feminino }
 class CalculadoraPage extends StatefulWidget {
   const CalculadoraPage({super.key});
 
@@ -16,6 +19,8 @@ class CalculadoraPage extends StatefulWidget {
 }
 
 class _CalculadoraPageState extends State<CalculadoraPage> {
+ Genero? genero;
+ int altura = 120;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,26 +28,42 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
         title: const Text('Calculadora IMC'),
         centerTitle: true,
       ),
-      body: const Column(
+      body:  Column(
         children: [
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: CustomCard(
-                    active: false,
-                    child: GenderContent(
-                      icon: Icons.male,
-                      label: 'Masculino',
+                  child: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        genero = Genero.masculino;
+                      });
+                      
+                    },
+                    child: CustomCard(
+                      active: genero == Genero.masculino,
+                      child: GenderContent(
+                        icon: Icons.male,
+                        label: 'Masculino',
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: CustomCard(
-                    active: true,
-                    child: GenderContent(
-                      icon: Icons.female,
-                      label: 'Feminino',
+                  child: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        genero = Genero.feminino;
+                      });
+                      
+                    },
+                    child: CustomCard(
+                      active: genero == Genero.feminino,
+                      child: GenderContent(
+                        icon: Icons.female,
+                        label: 'Feminino',
+                      ),
                     ),
                   ),
                 ),
@@ -50,16 +71,30 @@ class _CalculadoraPageState extends State<CalculadoraPage> {
             ),
           ),
           Expanded(
-            child: CustomCard(),
+              child: CustomCard(
+                child: SliderAltura(
+                  altura: altura,
+                  onChanged: (double novaAltura){
+                    setState(() {
+                      altura = novaAltura.toInt();
+                    });
+                  }
+                ),
+              ),
+            
           ),
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: CustomCard(),
+                  child: CustomCard(
+                    child: Contador(),
+                  ),
                 ),
                 Expanded(
-                  child: CustomCard(),
+                  child: CustomCard(
+                    child: Contador(),
+                  ),
                 ),
               ],
             ),
