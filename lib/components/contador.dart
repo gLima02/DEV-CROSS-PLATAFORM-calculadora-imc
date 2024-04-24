@@ -2,26 +2,37 @@ import '../constants.dart';
 import 'package:flutter/material.dart';
 
 class Contador extends StatelessWidget {
-  const Contador({super.key});
+  final String label;
+  final int value;
+  final void Function() onIncrement;
+  final void Function() onDecrement;
+
+  const Contador({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-          '?',
+        Text(
+          label,
           style: labelTextStyle,
         ),
-        const Text(
-          '80',
+        Text(
+          '$value',
           style: numberTextStyle,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: onDecrement,
               style: ElevatedButton.styleFrom(
                 backgroundColor: activeCardColour,
                 shape: const CircleBorder(),
@@ -33,7 +44,7 @@ class Contador extends StatelessWidget {
               width: 10.0,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: onIncrement,
               style: ElevatedButton.styleFrom(
                 backgroundColor: activeCardColour,
                 shape: const CircleBorder(),

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 class Calculadora {
-  static double calcularIMC({required peso, required altura}) {
+  static double calcularIMC({required int peso, required int altura}) {
     double imc = peso / pow(altura / 100, 2);
     return imc;
   }
